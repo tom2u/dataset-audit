@@ -8,7 +8,7 @@ rem set "extension=json"
 rem set "extension=xls"
 
 rem Set starting folder number here (which corresponds to the line number in the *-dataset-sources.csv file):
-set "starting_number=51"
+set "starting_number=81"
 
 
 set "file=master-!extension!.txt"
@@ -77,11 +77,11 @@ rem		start "" "!chromepath!\chrome.exe" -incognito "!site!/!command!=!query1!
 rem		start "" "!chromepath!\chrome.exe" -incognito "!site!/!command!=!query2!
 		start "" "chrome.exe" -incognito "!site!/!command!=!query1!
 		start "" "chrome.exe" -incognito "!site!/!command!=!query2!
-		call start notepad++ sorted-!extension!\!subfolder!\!first_filename!
-rem		call start notepad++ dataset-sources\!extension!-dataset-sources.csv
-		
+		start notepad++ sorted-!extension!\!subfolder!\!first_filename!
+		call start notepad++ dataset-sources\!extension!-dataset-sources.csv
+
 rem		for /f "delims=" %%v IN (sorted-!extension!\!subfolder!\!first_filename! dataset-sources\!extension!-dataset-sources.csv) do call notepad++ "%%v"
-		
+
 pause
 	)
 )
