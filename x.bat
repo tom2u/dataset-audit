@@ -72,8 +72,10 @@ rem Capture second line in file:
 pause
 		taskkill /F /IM chrome.exe /T >nul
 		taskkill /F /IM notepad++.exe /T >nul
-		start "" "!chromepath!\chrome.exe" -incognito "!site!/!command!=!query1!
-		start "" "!chromepath!\chrome.exe" -incognito "!site!/!command!=!query2!
+rem		start "" "!chromepath!\chrome.exe" -incognito "!site!/!command!=!query1!
+rem		start "" "!chromepath!\chrome.exe" -incognito "!site!/!command!=!query2!
+		start "" "chrome.exe" -incognito "!site!/!command!=!query1!
+		start "" "chrome.exe" -incognito "!site!/!command!=!query2!
 		call start notepad++ sorted-!extension!\!subfolder!\!first_filename!
 rem		call start notepad++ dataset-sources\!extension!-dataset-sources.csv
 		
