@@ -70,6 +70,7 @@ rem Capture second line in file:
 		echo !query2!
 		echo.
 pause
+
 		taskkill /F /IM chrome.exe /T >nul
 		taskkill /F /IM notepad++.exe /T >nul
 rem		start "" "!chromepath!\chrome.exe" -incognito "!site!/!command!=!query1!
