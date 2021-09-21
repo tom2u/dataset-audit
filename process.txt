@@ -1,6 +1,7 @@
 There are 3 repos containing unidentified data sets:
 
 DataViz-Lesson-Plans
+DataViz-Lesson-Plans-v1.1
 DataViz-Online
 nflx-adv-data
 
