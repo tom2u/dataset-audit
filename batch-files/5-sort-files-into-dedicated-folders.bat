@@ -1,14 +1,19 @@
 @echo off
 REM
+REM IMPORTANT:
+REM This batch file assumes that the master-* text files are in the current working directory, not in a subdirectory.
+REM
 REM Copy a file to a dedicated folder.
 REM Compare it to all other files.
 REM Copy all duplicate files to the same folder.
 REM Remove all corresponding files from the source master-* folder so that the files are not 
 REM used for redundant processing subsequently.
 REM
-rem How to free up extra disk space: 
-rem https://techcommunity.microsoft.com/t5/windows-it-pro-blog/managing-reserved-storage-in-windows-10-environments/ba-p/1297070
-
+REM How to free up extra disk space: 
+REM https://techcommunity.microsoft.com/t5/windows-it-pro-blog/managing-reserved-storage-in-windows-10-environments/ba-p/1297070
+REM
+REM Use Windows utility CertUtil to generate hash information. Sadly, it writes several lines of text, so write the text to dedicated files.
+REM OLD:							fc /B "!subject_file!" "!comparison_file!" > stats.txt
 
 cls
 
@@ -26,10 +31,8 @@ set hun=!DT:~24,2!
 echo Start Time = !hour!:!min!:!sec!:!hun!
 
 rem Set each folder/file name in a separate array variable (not true arrays, but just go with it for now...)
-rem set target[0]=mXaster-json
-rem set target[1]=mXaster-csv
-set target[2]=master-xls
-
+set target[0]=master-json
+set target[1]=master-csv
 
 for /F "tokens=2 delims==" %%a in ('set target[') do (
 
@@ -48,7 +51,6 @@ for /F "tokens=2 delims==" %%a in ('set target[') do (
 	echo ^*^*^*^*^*^*^*^*^*^*^*^*^*^*
 	echo FOLDER: !folder!
 	echo EXTENSION: !extension!
-
 
 	for /r %%i in (!folder!\*.!extension!) do (
 
@@ -74,7 +76,6 @@ for /F "tokens=2 delims==" %%a in ('set target[') do (
 
 			echo Subject:
 			echo !subject_file!
-
 			for /r %%j in (!folder!\*.!extension!) do (
 
 				set comparison_file=%%j
@@ -88,7 +89,14 @@ for /F "tokens=2 delims==" %%a in ('set target[') do (
 					if not "!comparison_file!"=="!subject_file!" (
 						if "!comparison_size!"=="!subject_size!" (
 
-							fc /B "!subject_file!" "!comparison_file!" > stats.txt
+							certutil -hashfile "!subject_file!" MD5 > temp_1.txt
+							certutil -hashfile "!comparison_file!" MD5 > temp_2.txt
+
+							type temp_1.txt | findstr /v MD5 | findstr /v CertUtil > hash_1.txt
+							type temp_2.txt | findstr /v MD5 | findstr /v CertUtil > hash_2.txt
+
+							fc /B hash_1.txt hash_2.txt > stats.txt
+
 							findstr /m /c:"no differences encountered" stats.txt >nul
 
 							if !errorlevel!==0 (
@@ -108,6 +116,9 @@ for /F "tokens=2 delims==" %%a in ('set target[') do (
 	)
 )
 
+rem Delete temporary files:
+del temp_?.txt
+del hash_?.txt
 
 REM ***************************************
 REM Get the hours/min/secs/hun, etc from current date and time

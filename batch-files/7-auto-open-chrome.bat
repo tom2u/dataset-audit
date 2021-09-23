@@ -2,14 +2,26 @@
 cls
 setlocal EnableExtensions EnableDelayedExpansion
 
+rem *****************************
+rem *** START MANUAL SETTINGS ***
+rem *****************************
+
+rem Set the exact path of Chrome on your computer here:
+set "chromepath=C:\Program Files (x86)\Google\Chrome\Application"
+
 rem Set extension here:
 set "extension=csv"
 rem set "extension=json"
-rem set "extension=xls"
 
 rem Set starting folder number here (which corresponds to the line number in the *-dataset-sources.csv file):
 set "starting_number=1"
 
+set "site=https://www.google.com"
+set "command=search?q"
+
+rem ***************************
+rem *** END MANUAL SETTINGS ***
+rem ***************************
 
 set "file=master-!extension!.txt"
 set /A i=0
@@ -31,9 +43,6 @@ for /d %%f in ("sorted-!extension!/*") do (
 
 rem if exist !output_file! del /q !output_file!
 
-set "chromepath=C:\Program Files (x86)\Google\Chrome\Application"
-set "site=https://www.google.com"
-set "command=search?q"
 
 rem Process the filenames in right order
 for /F "tokens=2 delims==" %%f in ('set file[') do (
@@ -69,15 +78,20 @@ rem Capture second line in file:
 		echo query2:
 		echo !query2!
 		echo.
+		echo ^-^-^> Press Enter to proceed with this query
+		echo.
+		pause
 
-		start "" "!chromepath!\chrome.exe" "!site!/!command!="!query1!"
-		pause
 		start "" "!chromepath!\chrome.exe" "!site!/!command!="!query2!"
-		pause
+		start "" "!chromepath!\chrome.exe" "!site!/!command!="!query1!"
+		call start notepad++ !extension!-dataset-sources.csv -n!subfolder!
 		call start notepad++ sorted-!extension!\!subfolder!\!first_filename!
+		echo.
+		echo ^-^-^> Press Enter to perform next query
+		echo.
 		pause
-		call start notepad++ dataset-sources\!extension!-dataset-sources.csv
-		pause
+rem Close all instances of chrome:
+		taskkill /F /IM chrome.exe /T > nul
 	)
 )
 

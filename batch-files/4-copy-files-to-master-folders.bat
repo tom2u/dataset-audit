@@ -14,7 +14,9 @@ setlocal
 rem Set each folder/file name in a separate array variable (not true arrays, but just go with it for now...)
 set target[0]=master-json
 set target[1]=master-csv
-set target[2]=master-xls
+
+if not exist master-json mkdir master-json
+if not exist master-csv mkdir master-csv
 
 rem Cycle through the target[*] settings:
 for /F "tokens=2 delims==" %%t in ('set target[') do (

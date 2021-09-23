@@ -1,5 +1,6 @@
-000--safety-archive/
+000--**/
 github-repos/
+master-csv/
+master-json/
 sorted-csv/
-sorted-xls/
 sorted-json/
