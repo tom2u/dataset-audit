@@ -1,4 +1,10 @@
 'source: http://stackoverflow.com/a/10835568/715608
+
+' IMPORTANT:
+' 2021-09-24:
+' This routine works with Excel 2007 on a Windows 8.1 machine,
+' but does not run in Excel 17 on Windows 10. 
+
 if WScript.Arguments.Count < 2 Then
     WScript.Echo "Please specify the source and the destination files. Usage: ExcelToCsv <xls/xlsx source file> <csv destination file>"
     Wscript.Quit

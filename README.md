@@ -48,6 +48,10 @@ Copy the `.bat` and `.vbs` files from the `batch-files` directory to the main fo
 
 **Step 1:**
 
+IMPORTANT:
+2021-09-24:
+This routine works with Excel 2007 on a Windows 8.1 machine, but does not run in Excel 17 (Office 365) on Windows 10. A different solution is necessary for this step. 
+
 Run batch file:
 
 > 1-xls-to-csv
